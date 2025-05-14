@@ -1,0 +1,175 @@
+﻿@model ControlGastosWeb.Models.GastosEncabezado
+
+@{
+    ViewBag.Title = "Registrar Gasto";
+    var tiposGasto = ViewBag.TiposGasto as List<ControlGastosWeb.Models.TipoGasto>;
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    table {
+        background-color: white;
+        color: black;
+    }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Registrar Gasto</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" class="form-control" value="@ViewBag.CorreoUsuario" readonly />
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FondoMonetarioId)
+                    @Html.DropDownListFor(model => model.FondoMonetarioId, new SelectList(ViewBag.FondosMonetarios, "Id", "NombreBanco"), "- Seleccione -", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FondoMonetarioId)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha)
+                    @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.Fecha)
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreComercio)
+                    @Html.TextBoxFor(model => model.NombreComercio, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NombreComercio)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoDocumento)
+                    @Html.TextBoxFor(model => model.TipoDocumento, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TipoDocumento)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observaciones)
+                    @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control", rows = 3 })
+                    @Html.ValidationMessageFor(model => model.Observaciones)
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <h4>Detalles del Gasto</h4>
+        <table class="table table-bordered" id="tablaDetalles">
+            <thead>
+                <tr>
+                    <th>Tipo de Gasto</th>
+                    <th>Monto</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="form-group">
+            <button type="button" class="btn btn-default" onclick="agregarFila()">Agregar Detalle</button>
+        </div>
+
+        <div class="form-group text-center mt-3">
+            <input type="submit" value="Guardar" class="btn btn-naranja" />
+            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+</div>
+
+<div class="marca-agua">SMARTBIT</div>
+
+@section Scripts {
+    <script>
+        let index = 0;
+        const tiposGasto = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(tiposGasto));
+
+        function agregarFila() {
+            const fila = `
+                <tr>
+                    <td>
+                        <select name="detalles[${index}].TipoGastoId" class="form-control">
+                            ${tiposGasto.map(g => `<option value="${g.ID}">${g.Descripcion}</option>`).join('')}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="detalles[${index}].Monto" class="form-control" step="0.01" min="0" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button>
+                    </td>
+                </tr>`;
+            document.querySelector("#tablaDetalles tbody").insertAdjacentHTML("beforeend", fila);
+            index++;
+        }
+
+        function eliminarFila(boton) {
+            boton.closest("tr").remove();
+        }
+    </script>
+}

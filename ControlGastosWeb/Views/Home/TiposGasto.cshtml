@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ControlGastosWeb.Models.TipoGasto>
+@{
+    ViewBag.Title = "Tipos de Gasto";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    table {
+        background-color: white;
+        color: black;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Tipos de Gasto</h2>
+    <p class="text-center">Gestione los diferentes tipos de gasto utilizados en el sistema.</p>
+    <p>
+        @Html.ActionLink("Crear nuevo tipo de gasto", "Create", null, new { @class = "btn btn-naranja" })
+    </p>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ID</td>
+                        <td>@item.Codigo</td>
+                        <td>@item.Descripcion</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-warning" }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">No hay tipos de gasto registrados.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="marca-agua">SMARTBIT</div>

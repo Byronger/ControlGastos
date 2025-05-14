@@ -1,0 +1,55 @@
+﻿@model ControlGastosWeb.Models.FondosMonetarios
+
+@{
+    ViewBag.Title = "Eliminar Fondo Monetario";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Eliminar Fondo Monetario</h2>
+
+    <div class="alert alert-warning text-dark">
+        ¿Estás seguro de que deseas eliminar este fondo?
+    </div>
+
+    <dl class="dl-horizontal">
+        <dt>Banco:</dt>
+        <dd>@Model.NombreBanco</dd>
+
+        <dt>No. Cuenta:</dt>
+        <dd>@Model.NoCuenta</dd>
+
+        <dt>Saldo:</dt>
+        <dd>@Model.Saldo.ToString("C")</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    }
+</div>

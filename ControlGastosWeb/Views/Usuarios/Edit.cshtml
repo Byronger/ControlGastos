@@ -1,0 +1,132 @@
+﻿@model ControlGastosWeb.Models.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Editar Usuario";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .form-container {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="text-center">Editar Usuario</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="UserName">Identificación</label>
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Nombre)
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Apellido)
+                    @Html.TextBoxFor(model => model.Apellido, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Login)
+                    @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.Label("Nueva Contraseña")
+                    @Html.Password("NuevaPassword", null, new { @class = "form-control" })
+                    @Html.ValidationMessage("NuevaPassword", "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.FechaNacimiento)
+                    @Html.TextBoxFor(model => model.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Direccion)
+                    @Html.TextBoxFor(model => model.Direccion, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="PhoneNumber">Teléfono</label>
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <center>
+                <div class="form-group">
+                    <input type="submit" value="Guardar Cambios" class="btn btn-naranja" />
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </center>
+        </div>
+    }
+
+</div>
+
+<div class="marca-agua">SMARTBIT</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

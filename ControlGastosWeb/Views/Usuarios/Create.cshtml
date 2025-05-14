@@ -1,0 +1,149 @@
+﻿@model ControlGastosWeb.Models.UsuarioViewModel
+
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .form-container {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="text-center">Registrar Usuario</h2>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @*@Html.LabelFor(m => m.UserName)*@
+                        <label for="UserName">Identificación</label>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Nombre)
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Apellido)
+                        @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Apellido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Login)
+                        @Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Login, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PasswordHash)
+                        @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PasswordHash, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FechaNacimiento)
+                        @Html.TextBoxFor(m => m.FechaNacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                        @Html.ValidationMessageFor(m => m.FechaNacimiento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Direccion)
+                        @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Direccion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="PhoneNumber">Teléfono</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Guardar" class="btn btn-naranja" />
+                @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    }
+</div>
+
+<div class="marca-agua">SMARTBIT</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

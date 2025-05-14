@@ -1,0 +1,82 @@
+﻿@model ControlGastosWeb.Models.TipoGasto
+
+@{
+    ViewBag.Title = "Crear Tipo de Gasto";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .form-container {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="text-center">Registrar Tipo de Gasto</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Codigo, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Descripcion, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Guardar" class="btn btn-naranja" />
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="marca-agua">SMARTBIT</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

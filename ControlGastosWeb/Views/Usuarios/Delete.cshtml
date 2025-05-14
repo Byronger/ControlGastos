@@ -1,0 +1,81 @@
+﻿@model ControlGastosWeb.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Eliminar Usuario";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .form-container {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="text-center">Eliminar Usuario</h2>
+
+    <h4 class="text-center">¿Estás seguro que deseas eliminar este usuario?</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>Identificación</dt>
+        <dd>@Model.UserName</dd>
+
+        <dt>Nombre</dt>
+        <dd>@Model.Nombre</dd>
+
+        <dt>Apellido</dt>
+        <dd>@Model.Apellido</dd>
+
+        <dt>Correo</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Teléfono</dt>
+        <dd>@Model.PhoneNumber</dd>
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Usuarios", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group text-center">
+            <input type="submit" value="Eliminar" class="btn btn-naranja" />
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>
+
+<div class="marca-agua">SMARTBIT</div>

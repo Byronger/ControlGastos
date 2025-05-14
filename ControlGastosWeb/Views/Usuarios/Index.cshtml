@@ -1,0 +1,138 @@
+﻿@model IEnumerable<ControlGastosWeb.Models.UsuarioViewModel>
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css" />
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    table {
+        background-color: white;
+        color: black;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Usuarios</h2>
+    <p>
+        @Html.ActionLink("Crear nuevo Usuario", "Create", null, new { @class = "btn btn-naranja" })
+    </p>
+
+    <hr />
+
+    <table id="tablaUsuarios" class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Identificación</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Dirección</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UserName</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Apellido</td>
+                        <td>@item.FechaNacimiento</td>
+                        <td>@item.Direccion</td>
+                        <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-warning" }) |
+                            @Html.ActionLink("Eliminar", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center">No hay Usuarios registrados.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @section scripts {
+        <!-- DataTables JS + Bootstrap 3 JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#tablaUsuarios').DataTable({
+                    "language": {
+                        "decimal": "",
+                        "emptyTable": "No hay datos disponibles en la tabla",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros coincidentes",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                        "aria": {
+                            "sortAscending": ": activar para ordenar la columna ascendente",
+                            "sortDescending": ": activar para ordenar la columna descendente"
+                        }
+                    },
+                    "order": [],
+                    "pageLength": 10
+                });
+            });
+        </script>
+    }
+
+</div>
+
+<div class="marca-agua">SMARTBIT</div>

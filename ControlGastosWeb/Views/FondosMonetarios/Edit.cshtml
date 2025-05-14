@@ -1,0 +1,76 @@
+﻿@model ControlGastosWeb.Models.FondosMonetarios
+
+@{
+    ViewBag.Title = "Editar Fondo Monetario";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Editar Fondo Monetario</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+<div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreBanco)
+                    @Html.TextBoxFor(model => model.NombreBanco, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NombreBanco)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NoCuenta)
+                    @Html.TextBoxFor(model => model.NoCuenta, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NoCuenta)
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Saldo)
+                    @Html.TextBoxFor(model => model.Saldo, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Saldo)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Guardar Cambios" class="btn btn-naranja" />
+            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+        }
+    </div>

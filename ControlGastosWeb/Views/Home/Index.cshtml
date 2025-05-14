@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e) !important;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    .pagina-inicio {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 75vh;
+        text-align: center;
+        color: white;
+        position: relative;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+        .pagina-inicio h1 {
+            font-size: 3em;
+            z-index: 2;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 120px;
+        color: rgba(255, 255, 255, 0.05);
+        z-index: 1;
+        user-select: none;
+        pointer-events: none;
+    }
+</style>
+
+<div class="pagina-inicio">
+    <div class="marca-agua">SMARTBIT</div>
+    <div>
+        <h1>Bienvenido a Sistema de Control de Gastos</h1>
+    </div>
+</div>

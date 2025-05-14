@@ -1,0 +1,81 @@
+﻿@model ControlGastosWeb.Models.TipoGasto
+
+@{
+    ViewBag.Title = "Eliminar Tipo de Gasto";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .form-container {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-rojo {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        color: white;
+    }
+
+        .btn-rojo:hover {
+            background-color: #c0392b;
+        }
+
+    .btn-volver {
+        background-color: #bdc3c7;
+        border-color: #bdc3c7;
+        color: black;
+    }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container form-container">
+    <h2 class="text-center">¿Está seguro que desea eliminar este tipo de gasto?</h2>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p class="form-control-static">@Model.Codigo</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <p class="form-control-static">@Model.Descripcion</p>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group text-center">
+            <input type="submit" value="Eliminar" class="btn btn-rojo" />
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-volver" })
+        </div>
+    }
+</div>
+
+<div class="marca-agua">SMARTBIT</div>

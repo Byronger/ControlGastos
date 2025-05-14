@@ -1,0 +1,110 @@
+﻿@model List<ControlGastosWeb.Models.Comparativo>
+@{
+    ViewBag.Title = "Comparativo Presupuesto vs Ejecución";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Comparativo Presupuesto vs Ejecución</h2>
+
+    @using (Html.BeginForm("Index", "Comparativo", FormMethod.Get))
+    {
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <label>Desde</label>
+                <input type="date" name="fechaInicio" value="@ViewBag.FechaInicio" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Hasta</label>
+                <input type="date" name="fechaFin" value="@ViewBag.FechaFin" class="form-control" />
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-naranja w-100">Generar</button>
+            </div>
+        </div>
+        <hr />
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <canvas id="graficoBarras" height="100"></canvas>
+
+<script>
+    const ctx = document.getElementById('graficoBarras').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Encode(Model.Select(m => m.TipoGasto))),
+            datasets: [
+                {
+                    label: 'Presupuestado',
+                    data: @Html.Raw(Json.Encode(Model.Select(m => m.Presupuestado))),
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)'
+                },
+                {
+                    label: 'Ejecutado',
+                    data: @Html.Raw(Json.Encode(Model.Select(m => m.Ejecutado))),
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white' // 👈 Etiquetas de la leyenda en blanco
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white' // 👈 Etiquetas del eje X
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white', // 👈 Etiquetas del eje Y
+                        callback: function(value) {
+                            return 'Q' + value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+    }
+    else if (ViewBag.FechaInicio != null)
+    {
+        <div class="alert alert-info text-center">No se encontraron datos en el rango seleccionado.</div>
+    }
+</div>

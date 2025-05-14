@@ -1,0 +1,130 @@
+﻿@model List<ControlGastosWeb.Models.Movimientos>
+
+@{
+    ViewBag.Title = "Consulta de Movimientos";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap.min.css" />
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    table {
+        background-color: white;
+        color: black;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Consulta de Movimientos</h2>
+
+    @using (Html.BeginForm("Index", "Movimientos", FormMethod.Get))
+    {
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Desde</label>
+                <input type="date" name="fechaInicio" value="@ViewBag.FechaInicio" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label>Hasta</label>
+                <input type="date" name="fechaFin" value="@ViewBag.FechaFin" class="form-control" />
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-naranja w-100">Buscar</button>
+            </div>
+        </div>
+        <hr />
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <table id="tablaMovimientos" class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                    <th>Tipo</th>
+                    <th>Fondo</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mov in Model)
+                {
+                    <tr>
+                        <td>@mov.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@mov.UsuarioCorreo</td>
+                        <td>@mov.TipoMovimiento</td>
+                        <td>@mov.FondoMonetario</td>
+                        <td>@mov.Descripcion</td>
+                        <td class="text-end">@mov.Monto.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else if (ViewBag.FechaInicio != null)
+    {
+        <div class="alert alert-info text-center">No se encontraron movimientos en el rango seleccionado.</div>
+    }
+
+    @section scripts {
+        <!-- DataTables JS + Bootstrap 3 JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#tablaMovimientos').DataTable({
+                    "language": {
+                        "decimal": "",
+                        "emptyTable": "No hay datos disponibles en la tabla",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ registros",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros coincidentes",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                        "aria": {
+                            "sortAscending": ": activar para ordenar la columna ascendente",
+                            "sortDescending": ": activar para ordenar la columna descendente"
+                        }
+                    },
+                    "order": [],
+                    "pageLength": 10
+                });
+            });
+        </script>
+    }
+</div>

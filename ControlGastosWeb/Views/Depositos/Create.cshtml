@@ -1,0 +1,104 @@
+﻿@model ControlGastosWeb.Models.Depositos
+@{
+    ViewBag.Title = "Crear Depósito";
+}
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #2c3e50, #34495e);
+        color: white;
+    }
+
+    .contenedor {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    label {
+        color: white;
+    }
+
+    .btn-naranja {
+        background-color: #ff8c00;
+        border-color: #ff8c00;
+        color: white;
+    }
+
+        .btn-naranja:hover {
+            background-color: #e67600;
+        }
+
+    .marca-agua {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        color: rgba(255, 255, 255, 0.03);
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<div class="container contenedor">
+    <h2 class="text-center">Crear Depósito</h2>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" class="form-control" value="@ViewBag.CorreoUsuario" readonly />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FondoMonetarioId, "Fondo Monetario")
+                @Html.DropDownListFor(model => model.FondoMonetarioId, new SelectList(ViewBag.FondosMonetarios, "Id", "NombreBanco"), "- Seleccione -", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FondoMonetarioId)
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha)
+                @Html.TextBoxFor(model => model.Fecha, new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.Fecha)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Monto)
+                @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                @Html.ValidationMessageFor(model => model.Monto)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group text-center mt-3">
+        <input type="submit" value="Guardar" class="btn btn-naranja" />
+        @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" })
+    </div>
+    }
+</div>
+
+<div class="marca-agua">SMARTBIT</div>
